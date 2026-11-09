@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout android:orientation="vertical" android:fitsSystemWindows="false" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <include layout="@layout/appbar" />
+    <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent" app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <com.google.android.material.tabs.TabLayout android:id="@id/plzrqfwyamvuaptbbphrrlcslqrded" android:layout_width="fill_parent" android:layout_height="40.0dip" style="@style/Widget.MaterialComponents.TabLayout" />
+        <advanced.scientific.calculator.calc991.plus.view.viewgroup.class_KnMhBgDBWxVNVtNQOWKXwOfDnlyWwl android:id="@id/nblmvvwpbmhx_mkubef_hxwspgxqmt" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    </LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

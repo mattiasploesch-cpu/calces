@@ -1,0 +1,3 @@
+.class final synthetic Lcom/google/android/gms/internal/ads/br2;
+.super Ljava/lang/Object;
+.source ""

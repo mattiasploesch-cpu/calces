@@ -1,0 +1,17 @@
+# Build-Ausgaben (nur die Build-Verzeichnisse, nicht z. B. META-INF/.../build/)
+/build/
+/app/build/
+
+# Signatur-/Hilfsdateien
+*.idsig
+*.log
+
+# Betriebssystem-Dateien
+.DS_Store
+Thumbs.db
+
+# Editor-Dateien
+*.swp
+*~
+.idea/
+.vscode/

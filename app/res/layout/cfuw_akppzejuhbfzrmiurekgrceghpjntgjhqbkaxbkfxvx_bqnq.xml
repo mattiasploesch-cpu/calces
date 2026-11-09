@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <ScrollView android:id="@id/aqqtaodahbaaipagdxfyngmhzltrcu" android:layout_width="fill_parent" android:layout_height="0.0dip" android:fillViewport="true" android:layout_weight="1.0" style="@style/ScrollViewStyle">
+            <advanced.scientific.calculator.calc991.plus.programming.console.view.class_mPOwAIzOGOXxxVftyoqiAxsTPvijmD android:orientation="vertical" android:id="@id/jgzwvgt_vdjkevhlfqnryvvuksvzju" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+        </ScrollView>
+        <LinearLayout android:orientation="horizontal" android:id="@id/kyjtiofymtaebgobpmwfuugdcvyclk" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <include android:layout_width="wrap_content" android:layout_height="fill_parent" layout="@layout/vkmipaomvikxx__aglxcpusnsvthqywsrpsacecwmcat_gzvqagfd" />
+            <include android:layout_width="wrap_content" android:layout_height="fill_parent" layout="@layout/vkmipaomvikxx__aglxcpusnsvthqywsrpsacecwmcat_gzvqagfd" />
+            <include android:layout_width="wrap_content" android:layout_height="fill_parent" layout="@layout/vkmipaomvikxx__aglxcpusnsvthqywsrpsacecwmcat_gzvqagfd" />
+        </LinearLayout>
+    </LinearLayout>
+    <advanced.scientific.calculator.calc991.plus.view.dragbutton.class_TjPBAdlkrd_bZFjoBOeFDiMSuPbgaF android:layout_gravity="center" android:id="@id/xwfvzbzdotwbxuamgrkhogkqengprn" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="0.0dip" android:layout_marginRight="0.0dip" app:textSize="36.0sp" app:useMonospaceFont="true" style="@style/Widget.AppCompat.Button" />
+</FrameLayout>

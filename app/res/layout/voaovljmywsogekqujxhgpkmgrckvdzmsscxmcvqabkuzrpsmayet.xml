@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<advanced.scientific.calculator.calc991.plus.view.class_TwUQWthwtIIcxvaOlmdPSQlImNPIdL android:orientation="vertical" android:id="@id/eawxmfowmxnybxxgg_vnsmgdtkicmq" android:layout_width="fill_parent" android:layout_height="fill_parent" android:weightSum="9.8"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <advanced.scientific.calculator.calc991.plus.view.viewgroup.class_hBzLdXQGsjjdWYhHlgRhMxqKnYoneK android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="5.0" android:rowCount="5" android:columnCount="6">
+        <include layout="@layout/ugtla_etiacbgeinodwm_qejfflttpdieij_agstvlriktvlvxttw" />
+    </advanced.scientific.calculator.calc991.plus.view.viewgroup.class_hBzLdXQGsjjdWYhHlgRhMxqKnYoneK>
+    <advanced.scientific.calculator.calc991.plus.view.viewgroup.class_hBzLdXQGsjjdWYhHlgRhMxqKnYoneK android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="4.8" android:rowCount="4" android:columnCount="5">
+        <include layout="@layout/muwycayeqlxqfkfu_ftxiuytgomedmo_zlkcuaa_eiknvlvzodpza" />
+    </advanced.scientific.calculator.calc991.plus.view.viewgroup.class_hBzLdXQGsjjdWYhHlgRhMxqKnYoneK>
+</advanced.scientific.calculator.calc991.plus.view.class_TwUQWthwtIIcxvaOlmdPSQlImNPIdL>

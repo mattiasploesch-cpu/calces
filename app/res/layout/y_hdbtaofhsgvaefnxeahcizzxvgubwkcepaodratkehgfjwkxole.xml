@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:orientation="vertical" android:fitsSystemWindows="false" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <FrameLayout android:orientation="vertical" android:id="@id/tphggvnserctazeuuuttadmjnjuwic" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+        <com.google.android.material.appbar.AppBarLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <androidx.appcompat.widget.Toolbar android:theme="@style/Widget.MaterialComponents.Toolbar.Surface" android:id="@id/gxnptwsgfqjxicdctjpqiejdlkrcfx" android:layout_width="fill_parent" android:layout_height="wrap_content" app:title="">
+                <LinearLayout android:gravity="center" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                    <com.google.android.material.button.MaterialButton android:id="@id/pnghgfuygetw_dpdavkucfgtmw_jk_" android:layout_width="wrap_content" android:layout_height="wrap_content" android:minWidth="30.0dip" app:autoFit="false" style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+                    <com.google.android.material.button.MaterialButton android:id="@id/yjyvxufiyuwlmdpugdqu_sfcleiakv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="8.0dip" android:minWidth="30.0dip" app:autoFit="false" style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+                    <androidx.core.widget.ContentLoadingProgressBar android:layout_gravity="center" android:id="@id/okxgsfonubhrcusngobhplikqszfhf" android:visibility="invisible" android:layout_width="30.0dip" android:layout_height="30.0dip" style="@style/Widget.AppCompat.ProgressBar" />
+                </LinearLayout>
+            </androidx.appcompat.widget.Toolbar>
+        </com.google.android.material.appbar.AppBarLayout>
+        <advanced.scientific.calculator.calc991.plus.view.scrollview.class_CiofbNvGxlpdSvrEFjmYzYqTHHmsCN android:scrollbarStyle="outsideInset" android:id="@id/aqqtaodahbaaipagdxfyngmhzltrcu" android:paddingBottom="100.0dip" android:scrollbars="vertical" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="fill_parent" android:fadeScrollbars="false" style="@style/ScrollViewStyle">
+            <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:animateLayoutChanges="false">
+                <LinearLayout android:orientation="vertical" android:id="@id/uqtel_pyxlriymlnrpxca_hiehkeob" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                    <include layout="@layout/kzztzqwkdzvwqdgdoialctiqvxlkteigiulhhjhfvvqjkokuhibce" />
+                    <com.google.android.material.button.MaterialButton android:layout_gravity="center" android:id="@id/uktpxhvcldmbinwgkcfcskmppbrase" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/view_steps" app:icon="@drawable/zatku_hnmwhejqcgmouwlzxgvgyabht_hbpyemtjyaemncltlonpy" style="@style/Widget.MaterialComponents.Button" />
+                </LinearLayout>
+                <LinearLayout android:orientation="vertical" android:id="@id/h_bnzhjplwb_jogrnhxrtucevstdxi" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+                <androidx.appcompat.widget.AppCompatTextView android:layout_gravity="center" android:id="@id/yybfmozwavwybshagztbyojtphmexk" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_margin="16.0dip" android:text="@string/we_cannot_calculate_anything_with_this_expression" />
+                <FrameLayout android:id="@id/pubhgwn_tlnjzgkhahghtmpthufnrv" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+            </LinearLayout>
+        </advanced.scientific.calculator.calc991.plus.view.scrollview.class_CiofbNvGxlpdSvrEFjmYzYqTHHmsCN>
+    </LinearLayout>
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton android:layout_gravity="bottom|center" android:id="@id/nlmzvwzxxk_azxtqchxwrxafibqadz" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_margin="16.0dip" android:text="@string/more" app:icon="@drawable/oqtuxzkajmsahbulkpjbynrznpeofvttwmnoxnteyyldmkujvyz_z" style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

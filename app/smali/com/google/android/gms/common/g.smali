@@ -1,0 +1,32 @@
+.class public final Lcom/google/android/gms/common/g;
+.super Lcom/google/android/gms/common/h;
+.source ""
+
+
+# static fields
+.field public static final f:I
+    .annotation runtime Ljava/lang/Deprecated;
+    .end annotation
+.end field
+
+
+# direct methods
+.method static constructor <clinit>()V
+    .locals 1
+
+    sget v0, Lcom/google/android/gms/common/h;->a:I
+
+    sput v0, Lcom/google/android/gms/common/g;->f:I
+
+    return-void
+.end method
+
+.method public static d(Landroid/content/Context;)Landroid/content/res/Resources;
+    .locals 0
+
+    invoke-static {p0}, Lcom/google/android/gms/common/h;->d(Landroid/content/Context;)Landroid/content/res/Resources;
+
+    move-result-object p0
+
+    return-object p0
+.end method

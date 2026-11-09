@@ -1,0 +1,39 @@
+# Standard: Textdateien normalisieren, Binärdateien unangetastet lassen.
+* text=auto eol=lf
+
+# Quell- und Konfigurationsdateien immer mit LF speichern.
+*.smali   text eol=lf
+*.xml     text eol=lf
+*.json    text eol=lf
+*.yml     text eol=lf
+*.yaml    text eol=lf
+*.properties text eol=lf
+*.md      text eol=lf
+*.sh      text eol=lf
+Makefile  text eol=lf
+.gitignore text eol=lf
+.gitattributes text eol=lf
+
+# Binärdateien.
+*.apk      binary
+*.jar      binary
+*.keystore binary
+*.so       binary
+*.so.*     binary
+*.zip      binary
+*.png      binary
+*.jpg      binary
+*.jpeg     binary
+*.gif      binary
+*.webp     binary
+*.ogg      binary
+*.mp3      binary
+*.wav      binary
+*.ttf      binary
+*.otf      binary
+*.gz       binary
+
+# Assets der App byte-exakt erhalten (Fonts, Sounds, HTML, XML, Daten ...).
+# Sie werden von der App zur Laufzeit verarbeitet und sollen nicht durch
+# Zeilenenden-Normalisierung verändert werden.
+app/assets/** -text

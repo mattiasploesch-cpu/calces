@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference android:entries="@array/angle_mode_titles" android:title="@string/angle_mode" android:key="@string/pref_key_angle_unit" android:defaultValue="@string/value_angle_mode_degree" android:entryValues="@array/angle_mode_values" />
+    <ListPreference android:entries="@array/output_type_titles" android:title="@string/default_output" android:key="@string/key_fraction" android:defaultValue="@string/output_decimal_value" android:entryValues="@array/output_type_values" />
+    <CheckBoxPreference android:title="@string/implied_multiplication" android:key="@string/pref_key_implicit_multiplication" android:defaultValue="true" android:summaryOn="1/2π = 1/(2*π)" android:summaryOff="1/2π = 1/2*π" />
+    <Preference android:title="@string/decimal_number_format" android:key="pref_key_select_decimal_format_mode" android:summary="@string/pref_desc_decimal_format" />
+</PreferenceScreen>
