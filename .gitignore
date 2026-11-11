@@ -15,3 +15,26 @@ Thumbs.db
 *~
 .idea/
 .vscode/
+
+# Gradle-/Arbeitsverzeichnisse
+/.work/
+/.gradle/
+
+# Entpackte Referenzkopie; das Original liegt als reference/jadx-sources.zip bei
+/java/
+
+# Werkzeuge des früheren apktool-Pipelines (nicht mehr für den Gradle-Build nötig)
+/tools/r8.jar
+/tools/android.jar
+/tools/dex-tools/
+/tools/asm/
+
+# Lokal automatisch heruntergeladene Android-SDK-Binärdateien
+/sdk/platforms/
+/sdk/build-tools/
+/sdk/platform-tools/
+/sdk/cmdline-tools/
+/sdk/emulator/
+/sdk/system-images/
+/sdk/.temp/
+/sdk/.knownPackages

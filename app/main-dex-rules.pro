@@ -1,0 +1,4 @@
+-keep class advanced.scientific.calculator.calc991.plus.class__gqKrDFNWCcvwELVBUbXfmjTwiubPT { *; }
+-keep class advanced.scientific.calculator.calc991.plus.class_bxkuWnrkhxsRPsGbqQaWRNhbYWlp_Y { *; }
+-keep class androidx.multidex.** { *; }
+-keep class androidx.core.app.CoreComponentFactory { *; }

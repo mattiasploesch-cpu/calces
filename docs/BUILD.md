@@ -1,60 +1,88 @@
 # Build-Anleitung
 
-## 1. Abhängigkeiten prüfen
+Dieses Projekt ist ein normales Android-Studio-/Gradle-Projekt. Es wird kein
+apktool und kein Smali mehr benötigt.
+
+## 1. Voraussetzungen
 
 ```bash
 java -version
-apktool --version
-aapt2 version
 ```
 
 Getestete Kombination:
 
-* OpenJDK 25.0.5
-* apktool 2.7.0
-* aapt2 2.19 (Debian/Ubuntu-Paket)
+* OpenJDK 25 (JDK 17 oder neuer wird von AGP 9 erwartet)
+* Android Gradle Plugin 9.0.1
+* Gradle 9.1.0 (Gradle-Wrapper ist enthalten)
+* Android SDK Platform 33 und Build-Tools 36.0.0
 
-Falls `aapt2` fehlt:
+Das SDK wird über `local.properties` eingebunden:
 
-* Debian/Ubuntu: `sudo apt install aapt`
-* Android SDK: `$ANDROID_HOME/build-tools/<version>/aapt2` in den `PATH` legen
-
-`apktool` benötigt zusätzlich eine Framework-Ressourcendatei. Auf diesem System
-liegt sie unter `~/.local/share/apktool/framework/1.apk`. Falls nicht vorhanden:
-
-```bash
-apktool if /pfad/zu/framework-res.apk
-# oder:
-apktool if "$ANDROID_HOME/platforms/android-30/android.jar"
+```properties
+sdk.dir=sdk
 ```
 
-Alternativ kann ein Framework-Verzeichnis mit `1.apk` unter `tools/framework/`
-abgelegt werden; `build.sh` erkennt es automatisch.
+Beim ersten Build lädt AGP die fehlenden SDK-Pakete automatisch nach `./sdk/`.
+Dafür muss die Lizenz akzeptiert sein; sie liegt bereits unter
+`sdk/licenses/android-sdk-license`.
+
+Wer ein vorhandenes SDK verwenden möchte, trägt in `local.properties` einen
+absoluten Pfad ein:
+
+```properties
+sdk.dir=/home/benutzer/Android/Sdk
+```
+
+Alternativ in Android Studio unter **File → Project Structure → SDK Location**.
 
 ## 2. Bauen
 
 ```bash
-./build.sh
+./gradlew assembleDebug
 # oder
-make build
+./build.sh
 ```
 
-Der Build führt folgende Schritte aus:
-
-1. `apktool b --use-aapt2 app -o build/app-unsigned.apk`
-2. `zipalign -f -p 4` (4-Byte-Ausrichtung, Page-Alignment für unkomprimierte
-   Einträge)
-3. `apksigner sign` mit v1 + v2 + v3
-4. Signaturprüfung, optionale `aapt`-Zusammenfassung, SHA-256
-
-Ausgabe:
+Ergebnis:
 
 ```
-dist/<paket>-<version>-signed.apk
-dist/<paket>-<version>-signed.apk.sha256
+app/build/outputs/apk/debug/app-debug.apk
 ```
 
-## 3. Signaturschlüssel
+Release-Variante:
+
+```bash
+./gradlew assembleRelease
+# oder
+./build.sh release
+```
+
+Ergebnis:
+
+```
+app/build/outputs/apk/release/app-release.apk
+```
+
+Ablauf des Gradle-Builds:
+
+1. AAPT2 kompiliert und verlinkt die Ressourcen. `app/stable-ids.txt` sorgt
+   dafür, dass die Ressourcen-IDs der Original-APK erhalten bleiben.
+2. `javac` kompiliert die lesbaren Java-Quellen gegen das generierte `R`.
+3. D8 erzeugt die DEX-Dateien (Multidex, Main-Dex-Regeln aus
+   `app/main-dex-rules.pro`).
+4. AGP verpackt Ressourcen, Assets, `src/main/resources` und die DEX-Dateien.
+5. Die APK wird mit `keystore/debug.keystore` signiert (v1 + v2 + v3) und
+   zipaligned.
+
+## 3. Android Studio
+
+1. **File → Open** und das Repository-Wurzelverzeichnis auswählen.
+2. Gradle-Sync abwarten (beim ersten Mal werden AGP und SDK-Pakete geladen).
+3. Run-Konfiguration `app` verwenden.
+
+Die Java-Quellen liegen unter `app/src/main/java` und sind vollständig lesbar.
+
+## 4. Signaturschlüssel
 
 Standardmäßig wird der mitgelieferte Debug-Schlüssel verwendet:
 
@@ -65,19 +93,25 @@ Standardmäßig wird der mitgelieferte Debug-Schlüssel verwendet:
 | Store-/Key-Passwort | `android` |
 | Zertifikat | `CN=Android Debug, O=Android, C=US` |
 
-Für einen eigenen Schlüssel:
+Für einen eigenen Schlüssel in `app/build.gradle` eine `signingConfig`
+hinterlegen, zum Beispiel:
 
-```bash
-export KEYSTORE=/pfad/zu/release.keystore
-export KEYSTORE_PASS='...'
-export KEY_PASS='...'
-export KEY_ALIAS='...'
-./build.sh
+```groovy
+signingConfigs {
+    release {
+        storeFile file('../keystore/release.keystore')
+        storePassword System.getenv('KEYSTORE_PASS')
+        keyAlias System.getenv('KEY_ALIAS')
+        keyPassword System.getenv('KEY_PASS')
+    }
+}
+
+buildTypes {
+    release {
+        signingConfig signingConfigs.release
+    }
+}
 ```
-
-> Der Debug-Schlüssel ist öffentlich und **nicht** für die Veröffentlichung im
-> Play Store geeignet. Für eine eigene Distribution einen neuen Schlüssel
-> erzeugen und geheim halten.
 
 Neuen Schlüssel erzeugen:
 
@@ -90,77 +124,107 @@ keytool -genkeypair -v \
   -dname "CN=Mein Name, O=Meine Organisation, C=DE"
 ```
 
-## 4. Installieren
+> Der Debug-Schlüssel ist öffentlich und **nicht** für die Veröffentlichung im
+> Play Store geeignet.
+
+## 5. Installieren
 
 ```bash
 adb uninstall advanced.scientific.calculator.calc991.plus   # nur falls installiert
-adb install dist/advanced.scientific.calculator.calc991.plus-99.4.4.229-signed.apk
+adb install app/build/outputs/apk/debug/app-debug.apk
 ```
 
-Bei einem anderen Paketnamen/Version den Dateinamen aus `dist/` verwenden.
+Oder direkt:
 
-## 5. Prüfen
+```bash
+./gradlew installDebug
+```
+
+Die App ist mit einem anderen Schlüssel als das Original signiert. Eine
+bestehende Play-Installation muss daher vorher deinstalliert werden
+(`INSTALL_FAILED_UPDATE_INCOMPATIBLE`).
+
+## 6. Prüfen
 
 ```bash
 ./verify.sh
-./verify.sh dist/advanced.scientific.calculator.calc991.plus-99.4.4.229-signed.apk
+./verify.sh app/build/outputs/apk/debug/app-debug.apk
 ```
 
-## 6. Aufräumen
+Geprüft werden:
+
+* Signatur (v1/v2/v3) über `apksigner`
+* Manifestdaten (Paket, Version, SDK-Level, Launcher-Activity)
+* Zip-Alignment
+* SHA-256
+
+## 7. Aufräumen
 
 ```bash
-make clean        # entfernt build/
+./gradlew clean
+# oder
+make clean
 ```
 
-`dist/` wird nicht automatisch gelöscht.
+`dist/` wird dabei nicht gelöscht.
 
 ## Fehlerbehebung
 
-### `Invalid file name: must contain only [a-z0-9_.]` / `invalid entry name '$...'`
+### `SDK location not found`
 
-Tritt auf, wenn die ursprünglichen `$`-Ressourcennamen wiederhergestellt wurden.
-In diesem Repository sind sie bereits umbenannt. Nicht rückgängig machen; die
-IDs in `app/res/values/public.xml` bleiben unverändert.
+`local.properties` fehlt oder `sdk.dir` zeigt auf ein nicht vorhandenes
+Verzeichnis. Entweder `sdk.dir=sdk` verwenden (AGP lädt das SDK dann nach) oder
+einen absoluten SDK-Pfad eintragen.
 
-### `Could not extract resource: /prebuilt/linux/aapt2_64`
+### `Failed to install the following Android SDK packages ... licences have not been accepted`
 
-Harmlose Warnung der Debian-apktool-Version. apktool verwendet dann das
-`aapt2` aus dem `PATH`. Entscheidend ist, dass der Build danach weiterläuft.
+Die Lizenzdatei `sdk/licenses/android-sdk-license` fehlt. Inhalt:
 
-### `could not exec (exit code = 1)` beim Ressourcenbau
-
-* Prüfen, ob `aapt2` vorhanden ist und zum apktool passt.
-* Framework-Datei prüfen (`apktool if ...`, siehe oben).
-* Mit `apktool b --use-aapt2 app -o /tmp/test.apk` manuell testen.
-
-### `zipalign failed` / `libzopfli.so.1: cannot open shared object file`
-
-`build.sh` setzt `LD_LIBRARY_PATH` automatisch auf `tools/lib`. Fehlen weitere
-Systembibliotheken (z. B. `libutils`, `libziparchive`), wird die APK ohne
-Alignment signiert. Das ist für Installation und Laufzeit unkritisch; optional
-`zipalign` aus den Android Build-Tools installieren und `PATH` anpassen.
-
-### APK lässt sich nicht installieren: `INSTALL_FAILED_UPDATE_INCOMPATIBLE`
-
-Die Signaturen unterscheiden sich. Vorher deinstallieren:
-
-```bash
-adb uninstall advanced.scientific.calculator.calc991.plus
 ```
+24333f8a63b6825ea9c5514f83c2829b004d1fee
+d56f5187479451eabf01fb78af6dfcb131a6481e
+```
+
+### `Minimum supported Gradle version is ...`
+
+AGP und Gradle müssen zusammenpassen. Dieses Projekt ist auf AGP 9.0.1 mit
+Gradle 9.1.0 abgestimmt. Die Versionen stehen in `build.gradle` und
+`gradle/wrapper/gradle-wrapper.properties`.
+
+### `Duplicate class androidx.multidex.MultiDexApplication`
+
+Die Klasse darf nicht gleichzeitig in `app/libs/deobf-libs.jar` und im
+`androidx.multidex`-Artefakt liegen. In diesem Repository wurde sie aus dem JAR
+entfernt; AGP liefert `androidx.multidex:multidex:2.0.0` automatisch.
+
+### `references to other resources are not supported by build-time PNG generation`
+
+Vektor-Drawables, die `@string/...` als `pathData` verwenden, dürfen nicht in
+PNGs umgewandelt werden. `vectorDrawables.useSupportLibrary true` in
+`app/build.gradle` verhindert das; die Vektoren werden zur Laufzeit über
+AndroidX gerendert.
+
+### `Konstantenausdruck erforderlich` bei `case R.id.…`
+
+AGP stellt im Compile-Klassenpfad nicht-finale `R`-IDs bereit. `switch` über
+`R.id.*` ist damit nicht möglich. Die betroffenen Stellen wurden bereits auf
+`if/else` umgestellt; neue `switch`-Anweisungen über `R.id` vermeiden.
 
 ### Java-Version
 
-Getestet mit Java 25. Ältere Java-Versionen (8+) funktionieren mit apktool 2.7
-ebenfalls. Bei sehr neuen Java-Versionen kann `JAVA=/pfad/zu/java` gesetzt
-werden, falls `apksigner.jar` oder apktool Warnungen ausgeben.
+AGP 9 benötigt ein JDK 17 oder neuer. Getestet mit OpenJDK 25. Falls mehrere
+JDKs installiert sind, kann `JAVA_HOME` gesetzt werden:
+
+```bash
+JAVA_HOME=/pfad/zum/jdk ./gradlew assembleDebug
+```
 
 ## Reproduzierbarkeit
 
 Der Build ist inhaltlich reproduzierbar, aber nicht byte-identisch:
 
-* `aapt2` kann Manifest-Metadaten (`compileSdkVersion`,
-  `platformBuildVersionName`) an die installierte Version anpassen.
-* ZIP-Zeitstempel und Kompression können variieren.
+* Zeitstempel und Kompression der ZIP-Einträge können variieren.
 * Die Signatur ist bei gleichem Keystore und gleichen Eingaben stabil.
+* Die Ressourcen-IDs sind durch `app/stable-ids.txt` festgeschrieben.
 
 Für die Funktion sind diese Unterschiede irrelevant.

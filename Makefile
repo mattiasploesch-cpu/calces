@@ -1,12 +1,19 @@
-.PHONY: all build verify clean
+.PHONY: all build release verify install clean
 
+# Standard: Debug-APK bauen.
 all: build
 
 build:
-	./build.sh
+	./gradlew clean assembleDebug
+
+release:
+	./gradlew clean assembleRelease
 
 verify:
 	./verify.sh
 
+install:
+	./gradlew installDebug
+
 clean:
-	rm -rf build
+	./gradlew clean

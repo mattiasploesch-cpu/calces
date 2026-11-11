@@ -37,3 +37,9 @@ Makefile  text eol=lf
 # Sie werden von der App zur Laufzeit verarbeitet und sollen nicht durch
 # Zeilenenden-Normalisierung verändert werden.
 app/assets/** -text
+app/src/main/assets/** -text
+# Nicht-Ressourcen-Dateien am APK-Root ebenfalls byte-exakt halten.
+app/src/main/resources/** -text
+
+# Windows-Batchdateien mit CRLF.
+*.bat text eol=crlf

@@ -1,0 +1,94 @@
+plugins {
+    id 'com.android.application'
+}
+
+// ---------------------------------------------------------------------------
+// CalcES – Android-Studio-Projekt
+// ---------------------------------------------------------------------------
+//
+// Die App verwendet die lesbaren, aus der Original-APK rekonstruierten
+// Java-Quellen. Die deobfuskierte Bibliothek liegt als JAR in libs/.
+
+android {
+    namespace 'advanced.scientific.calculator.calc991.plus'
+    compileSdk 33
+
+    defaultConfig {
+        applicationId 'advanced.scientific.calculator.calc991.plus'
+        minSdk 17
+        targetSdk 30
+        versionCode 902109999
+        versionName '99.4.4.229'
+
+        // Die App hat mehr als 65k Methoden. multidex 2.0.0 wird von AGP
+        // automatisch als Laufzeitabhängigkeit ergänzt.
+        multiDexEnabled true
+
+        // Vektorgrafiken auf API 17–20 über die AndroidX-Supportbibliothek
+        // rendern, statt beim Build PNGs zu erzeugen. Einige Drawables
+        // referenzieren Pfaddaten aus strings.xml.
+        vectorDrawables.useSupportLibrary true
+    }
+
+    signingConfigs {
+        debug {
+            storeFile file('../keystore/debug.keystore')
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+            enableV1Signing true
+            enableV2Signing true
+            enableV3Signing true
+        }
+    }
+
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+            multiDexKeepProguard file('main-dex-rules.pro')
+        }
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.debug
+            multiDexKeepProguard file('main-dex-rules.pro')
+        }
+    }
+
+    // Die deobfuskierte Bibliothek enthält die ursprünglichen Ressourcen-IDs
+    // als Bytecode-Konstanten (R8 hat sie beim Original-Build eingebettet).
+    // Mit --stable-ids vergibt aapt2 beim Neubau exakt dieselben IDs, damit
+    // diese Verweise weiterhin auf die richtigen Ressourcen zeigen.
+    aaptOptions {
+        additionalParameters '--stable-ids', file('stable-ids.txt').absolutePath
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildFeatures {
+        buildConfig true
+    }
+
+    lint {
+        abortOnError false
+    }
+
+    // Das multidex-AAR und die Original-APK liefern beide diese Markerdatei.
+    // Die App-Version hat Vorrang (Inhalt der Original-APK).
+    packaging {
+        resources {
+            pickFirsts += ['androidsupportmultidexversion.txt']
+        }
+    }
+}
+
+dependencies {
+    // Die vollständig deobfuskierte Bibliothek (AndroidX, Firebase, OkHttp, ...).
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    // Wird zur Laufzeit vom Android-Framework bereitgestellt
+    // (siehe <uses-library android:name="org.apache.http.legacy"/>).
+    compileOnly files('../tools/org.apache.http.legacy.jar')
+}
